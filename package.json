@@ -1,0 +1,23 @@
+{
+  "name": "plex",
+  "version": "1.0.0",
+  "description": "Conversational bot backend.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Amazon",
+    "Lex",
+    "chatbot",
+    "bot"
+  ],
+  "author": "Yarely Chino, Hugo Argueta, Will Czubiak",
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "mongoose": "^4.8.4"
+  }
+}
