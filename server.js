@@ -6,11 +6,11 @@
  * mongoose: NodeJS module that provides MongoDB object mapping.
  *
  */
-
 var express = require('express')
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 
+// Initialize Express application
 var app = express()
 
 // MongoDB instance URL
