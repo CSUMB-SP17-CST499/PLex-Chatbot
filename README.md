@@ -2,7 +2,9 @@
 
 Begin by installing dependencies with command:
 
-### 'npm install'
+'''sh
+npm install
+'''
 
 <br>
 
@@ -10,7 +12,9 @@ Begin by installing dependencies with command:
 
 Before accessing the landing page, build project with command:
 
-### 'npm run build'.
+'''sh
+npm run build
+'''
 
 This command will build the app for production to the 'build' directory. <br>
 
