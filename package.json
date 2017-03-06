@@ -23,6 +23,7 @@
   "private": true,
   "dependencies": {
     "apiai": "^4.0.0",
+    "axios": "^0.15.3",
     "body-parser": "^1.16.1",
     "classnames": "^2.2.5",
     "express": "^4.14.1",

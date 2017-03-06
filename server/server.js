@@ -14,7 +14,7 @@ var mongoose = require('mongoose')
 var apiai = require('apiai')
 var path = require('path')
 
-var testRoute = require('./controllers/test')
+var testRoute = require('./controllers/item')
 
 // Initialize express app
 var app = express()
