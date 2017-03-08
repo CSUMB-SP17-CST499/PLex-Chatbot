@@ -2,7 +2,8 @@
   "name": "plex",
   "version": "1.0.0",
   "engines": {
-    "node": "4.6.1"
+    "node": "4.6.1",
+    "npm": "2.15.9"
   },
   "description": "Conversational bot backend.",
   "main": "server.js",
