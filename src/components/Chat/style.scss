@@ -1,0 +1,15 @@
+@mixin roundedBorder($rad : 25px, $bord : 2px, $pad : 20px, $color: black){
+    border-radius: $rad;
+    border: $bord solid $color;
+    padding: $pad; 
+}
+#button{
+    color: lighten(red, 10%);
+    
+}
+
+#messageArea{
+    color: white;
+    @include roundedBorder();
+}
+
