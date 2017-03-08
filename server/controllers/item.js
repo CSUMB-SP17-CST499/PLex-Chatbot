@@ -2,52 +2,30 @@ var express = require('express')
 var apiai = require('apiai')
 
 var Item = require('../models/item')
+var DBStorage = require('../js/storage')
+var Apiai = require('../js/apiai')
 
 var router = express.Router()
 
-// Initialize api.ai cient object.
-var apiClient = apiai('** api.ai public key here **')
+var storage = DBStorage()
+var apiai = Apiai()
 
 router.route('/item').post(function(request, res) {
     var text = request.body.intent
 
-    // *** 
-    // Code that adds item to database. Will be used later
-    // *** 
-
-    // var itemName = request.body.name
-    // var itemPicture = request.body.picture
-    // var itemDescription = request.body.description
-
-    // var newItem = new Item({
-    //     name: itemName,
-    //     picture: itemPicture,
-    //     description: itemDescription
-    // })
-
-    // newItem.save(function(err) {
-    //     if(err) {
-    //         console.log(err)
-    //         response.send(err)
-    //     }
-
-    //     response.send({message: 'Item was successfully added!'})
-    // })
-
-    console.log(text)
-    
-    var req = apiClient.textRequest(text, {sessionId: '1234'})
-
-    req.on('response', function(response) {
-        console.log(response)
-        res.send(response)
+    apiai.request(text, function(isComplete, obj, message) {
+        if(isComplete) {
+            storage.saveItem(obj, function(didSave) {
+                if(didSave) {
+                    res.json({msg: message})
+                } else {
+                    res.json({msg: 'Sorry, I wasn\' able to add your item'})
+                }
+            })
+        } else {
+            res.send({result: message})
+        }
     })
-
-    req.on('error', function(error) {
-        console.log(error)
-    })
-
-    req.end()
 })
 
 module.exports = router;
