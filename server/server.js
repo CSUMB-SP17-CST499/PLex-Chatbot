@@ -20,7 +20,7 @@ var testRoute = require('./controllers/item')
 var app = express()
 
 // MongoDB instance URL
-var mongoUrl = 'mongodb://localhost/plex'
+var mongoUrl = process.env['MONGODB_URI']
 
 // Establish connection to MongoDB instance.
 mongoose.connect(mongoUrl, function(err, response) {
