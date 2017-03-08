@@ -20,7 +20,7 @@ var testRoute = require('./controllers/item')
 var app = express()
 
 // MongoDB instance URL
-var mongoUrl = process.env['MONGODB_URI']
+var mongoUrl = process.env['MONGODB_URI'] || 'mongodb://localhost/plex'
 
 // Establish connection to MongoDB instance.
 mongoose.connect(mongoUrl, function(err, response) {
@@ -49,7 +49,7 @@ app.get('*', function(request, response) {
 app.use('/api/user', testRoute)
 
 // Define port express application will listen on
-var port = 8080
+var port = process.env.PORT || 5000
 
 // Express app is listening on defined port
 app.listen(port)
