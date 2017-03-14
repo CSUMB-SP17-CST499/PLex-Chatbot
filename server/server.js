@@ -49,7 +49,7 @@ app.get('*', function(request, response) {
 app.use('/api/user', testRoute)
 
 // Define port express application will listen on
-var port = process.env.PORT || 5000
+var port = process.env.PORT || 8080
 
 // Express app is listening on defined port
 app.listen(port)

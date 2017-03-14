@@ -1,6 +1,8 @@
-import React, { PropTypes, Component } from 'react'
-import classnames from 'classnames'
-import './style.css'
+import React, { PropTypes, Component } from 'react';
+import classnames from 'classnames';
+import './style.css';
+import axios from 'axios';
+
 
 
 export class Chat extends Component {
@@ -11,21 +13,30 @@ export class Chat extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
     };
     
-    handleChange(event) {
-        this.setState({text: event.target.text});
-    }
-    handleSubmit(event) {
-        
-        event.preventDefault();
-        
-        // This just prints out the text to console to see if it worked.
-        console.log(this.state.text)
-        
-        this.setState({'text':''});
-        event.preventDefault();
-    }
+    // Updating this.state.text variable as user types
+  handleChange(event) {
+    this.setState({text: event.target.value}, function() {
+      console.log(this.state.text)
+    })
+  }
+  
+  // Send post request to chatbot containing the user's request
+  // contained in parameter 'intent'
+  handleSubmit(event) {
+    axios.post('http://localhost:8080/api/user/item', {
+      intent: this.state.text
+    }).then(function (res) {
+      console.log(res.data.result.fulfillment.messages)
+    }).catch(function (error) {
+      console.log(error)
+    })
+    this.setState({'text': ''});
+  }
+    
+    // This is needed for the component to render properly
     componentDidMount(){
         
     }
@@ -33,9 +44,8 @@ export class Chat extends Component {
   render() {
     const {className, ...props} = this.props
     return (
-      <div className={classnames('App', className)}>
-        <div className="App-header">
-        </div>
+      <div className={classnames('Chat', className)}>
+        
         <div>
         
         </div>
