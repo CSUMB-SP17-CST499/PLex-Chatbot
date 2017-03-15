@@ -9,7 +9,9 @@ export class Chat extends Component {
     constructor(props){
         super(props);
         this.state = {
-            'text' : ''
+            'text' : '',
+            'sender': [],
+            'messages': []
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,9 +28,13 @@ export class Chat extends Component {
   // Send post request to chatbot containing the user's request
   // contained in parameter 'intent'
   handleSubmit(event) {
+    this.state.messages.push(this.state.text)
+    this.state.sender.push(false)
     axios.post('http://localhost:8080/api/user/item', {
       intent: this.state.text
     }).then(function (res) {
+      this.state.sender.push(true)
+      this.state.messages.push(res)
       console.log(res)
     }).catch(function (error) {
       console.log(error)
