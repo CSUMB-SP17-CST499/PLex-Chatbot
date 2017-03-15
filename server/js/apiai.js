@@ -6,7 +6,7 @@
 var apiai = require('apiai')
 
 // Initialize api.ai cient object.
-var apiClient = apiai('** api token here **')
+var apiClient = apiai(process.env['API'])
 
 /*  Returns an object that defines an interface to interact with api.ai's service
  *
