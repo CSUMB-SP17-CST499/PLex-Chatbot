@@ -29,7 +29,7 @@ export class Chat extends Component {
     axios.post('http://localhost:8080/api/user/item', {
       intent: this.state.text
     }).then(function (res) {
-      console.log(res.data.result.fulfillment.messages)
+      console.log(res)
     }).catch(function (error) {
       console.log(error)
     })
@@ -49,11 +49,9 @@ export class Chat extends Component {
         <div>
         
         </div>
-        <form onSubmit={this.handleSubmit}>
             <input type="text" value={this.state.text} onChange={this.handleChange} placeholder="Enter message here">
             </input> 
-            <button>Enter</button>
-        </form>
+            <button onClick={this.handleSubmit}>Enter</button>
       </div>
     );
   }
