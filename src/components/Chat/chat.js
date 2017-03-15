@@ -10,8 +10,10 @@ export class Chat extends Component {
         super(props);
         this.state = {
             'text' : '',
-            'sender': [],
-            'messages': []
+            'conversation': [{
+              'class' : '',
+              'message' : ''
+            }]
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,13 +30,11 @@ export class Chat extends Component {
   // Send post request to chatbot containing the user's request
   // contained in parameter 'intent'
   handleSubmit(event) {
-    this.state.messages.push(this.state.text)
-    this.state.sender.push(false)
+    this.state.conversation.push({'class' : 'user', 'message' : this.state.text})
     axios.post('http://localhost:8080/api/user/item', {
       intent: this.state.text
     }).then(function (res) {
-      this.state.sender.push(true)
-      this.state.messages.push(res)
+      this.state.conversation.push({'class' : 'bot', 'message' : res})
       console.log(res)
     }).catch(function (error) {
       console.log(error)
@@ -48,12 +48,21 @@ export class Chat extends Component {
     }
     
   render() {
+    let conversation = this.state.conversation.map((n, index) =>
+            <div className="extended">
+              <div className={n.class}>
+                {n.message}
+              </div>
+                
+            </div>
+        );
     const {className, ...props} = this.props
     return (
       <div className={classnames('Chat', className)}>
         
-        <div>
+        <div className="chatArea">
         
+          {conversation}
         </div>
             <input type="text" value={this.state.text} onChange={this.handleChange} placeholder="Enter message here">
             </input> 
