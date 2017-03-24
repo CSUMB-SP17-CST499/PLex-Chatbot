@@ -34,8 +34,8 @@ export class Chat extends Component {
     axios.post('http://localhost:8080/api/user/item', {
       intent: this.state.text
     }).then(function (res) {
-      this.state.conversation.push({'class' : 'bot', 'message' : res})
-      console.log(res)
+      console.log(res['data']['result']);
+      this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
     }).catch(function (error) {
       console.log(error)
     })
@@ -50,9 +50,9 @@ export class Chat extends Component {
   render() {
     let conversation = this.state.conversation.map((n, index) =>
             <div className="extended">
-              <div className={n.class}>
+              <span className={n.class}>
                 {n.message}
-              </div>
+              </span>
                 
             </div>
         );
@@ -60,7 +60,7 @@ export class Chat extends Component {
     return (
       <div className={classnames('Chat', className)}>
         
-        <div className="chatArea">
+        <div id="chatArea">
         
           {conversation}
         </div>
