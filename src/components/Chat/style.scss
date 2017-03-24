@@ -8,8 +8,28 @@
     
 }
 
-#messageArea{
-    color: white;
-    @include roundedBorder();
+.Chat{
+    float:right;
+    width:50%;
 }
 
+#chatArea{
+    background-color: darken(white, 10%);
+    
+}
+
+.extended{
+    width:90%;
+}
+
+.user{
+    background-color:lighten(blue, 80%);
+    float:right;
+    @include roundedBorder(10px, 1px, 10px);
+}
+
+.bot{
+    background-color:lighten(black, 85%);
+    float:left;
+    @include roundedBorder(10px, 1px, 10px);
+}

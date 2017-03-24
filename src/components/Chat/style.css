@@ -1,10 +1,28 @@
 #button {
   color: #ff3333; }
 
-#messageArea {
-  color: white;
-  border-radius: 25px;
-  border: 2px solid black;
-  padding: 20px; }
+.Chat {
+  float: right;
+  width: 50%; }
+
+#chatArea {
+  background-color: #e6e6e6; }
+
+.extended {
+  width: 90%; }
+
+.user {
+  background-color: white;
+  float: right;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 10px; }
+
+.bot {
+  background-color: #d9d9d9;
+  float: left;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 10px; }
 
 /*# sourceMappingURL=style.css.map */
