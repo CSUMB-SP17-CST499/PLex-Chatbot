@@ -2,12 +2,11 @@ var express = require('express')
 var apiai = require('apiai')
 
 var Item = require('../models/item')
-var DBStorage = require('../js/storage')
+var storage = require('../js/storage')
 var Apiai = require('../js/apiai')
 
 var router = express.Router()
 
-var storage = DBStorage()
 var apiai = Apiai()
 
 router.route('/item').post(function(request, res) {

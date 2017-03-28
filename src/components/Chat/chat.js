@@ -19,14 +19,14 @@ export class Chat extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
     };
-    
+
     // Updating this.state.text variable as user types
   handleChange(event) {
     this.setState({text: event.target.value}, function() {
       console.log(this.state.text)
     })
   }
-  
+
   // Send post request to chatbot containing the user's request
   // contained in parameter 'intent'
   handleSubmit(event) {
@@ -41,35 +41,33 @@ export class Chat extends Component {
     })
     this.setState({'text': ''});
   }
-    
+
     // This is needed for the component to render properly
     componentDidMount(){
-        
+
     }
-    
+
   render() {
     let conversation = this.state.conversation.map((n, index) =>
             <div className="extended">
               <span className={n.class}>
                 {n.message}
               </span>
-                
+
             </div>
         );
     const {className, ...props} = this.props
     return (
       <div className={classnames('Chat', className)}>
-        
+
         <div id="chatArea">
-        
+
           {conversation}
         </div>
             <input type="text" value={this.state.text} onChange={this.handleChange} placeholder="Enter message here">
-            </input> 
+            </input>
             <button onClick={this.handleSubmit}>Enter</button>
       </div>
     );
   }
 }
-
-

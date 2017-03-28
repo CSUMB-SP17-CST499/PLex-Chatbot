@@ -1,4 +1,4 @@
-/* 
+/*
  * Api.ai module that will handle all the logic
  * of making requests to api.ai's service.
  */
