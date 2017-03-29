@@ -31,15 +31,24 @@ export class Chat extends Component {
   // contained in parameter 'intent'
   handleSubmit(event) {
     this.state.conversation.push({'class' : 'user', 'message' : this.state.text})
+    this.setState({'text': ''});
+    
+    function pushMessage(response){
+      console.log(response + "1");
+      this.state.conversation.push({'class' : 'bot', 'message' : response});
+
+    }
+
     axios.post('http://localhost:8080/api/user/item', {
       intent: this.state.text
     }).then(function (res) {
       console.log(res['data']['result']);
-      //this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
+      pushMessage(res['data']['result']);
     }).catch(function (error) {
       console.log(error)
     })
-    this.setState({'text': ''});
+    
+    
   }
 
     // This is needed for the component to render properly
