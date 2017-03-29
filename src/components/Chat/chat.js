@@ -4,7 +4,6 @@ import './style.css';
 import axios from 'axios';
 
 
-
 export class Chat extends Component {
     constructor(props){
         super(props);
@@ -32,23 +31,17 @@ export class Chat extends Component {
   handleSubmit(event) {
     this.state.conversation.push({'class' : 'user', 'message' : this.state.text})
     this.setState({'text': ''});
-    
-    function pushMessage(response){
-      console.log(response + "1");
-      this.state.conversation.push({'class' : 'bot', 'message' : response});
-
-    }
 
     axios.post('http://localhost:8080/api/user/item', {
       intent: this.state.text
-    }).then(function (res) {
+  }).then((res) => {
       console.log(res['data']['result']);
-      pushMessage(res['data']['result']);
+      this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
+      this.forceUpdate()
     }).catch(function (error) {
       console.log(error)
     })
-    
-    
+
   }
 
     // This is needed for the component to render properly
