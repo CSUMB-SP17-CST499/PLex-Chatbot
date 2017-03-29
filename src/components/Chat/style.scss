@@ -15,10 +15,13 @@
 
 #chatArea{
     background-color: darken(white, 10%);
-    
+    height:80%;
+    overflow-y:auto;
+    display:flex;
+    flex-flow:column wrap;
 }
 
-.extended{
+.message{
     width:90%;
 }
 

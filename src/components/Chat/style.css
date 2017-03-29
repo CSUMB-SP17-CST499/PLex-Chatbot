@@ -6,9 +6,13 @@
   width: 50%; }
 
 #chatArea {
-  background-color: #e6e6e6; }
+  background-color: #e6e6e6;
+  height: 80%;
+  overflow-y: auto;
+  display: flex;
+  flex-flow: column wrap; }
 
-.extended {
+.message {
   width: 90%; }
 
 .user {

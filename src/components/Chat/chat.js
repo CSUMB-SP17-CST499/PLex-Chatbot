@@ -35,7 +35,7 @@ export class Chat extends Component {
       intent: this.state.text
     }).then(function (res) {
       console.log(res['data']['result']);
-      this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
+      //this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
     }).catch(function (error) {
       console.log(error)
     })
@@ -49,7 +49,7 @@ export class Chat extends Component {
 
   render() {
     let conversation = this.state.conversation.map((n, index) =>
-            <div className="extended">
+            <div className="message">
               <span className={n.class}>
                 {n.message}
               </span>
