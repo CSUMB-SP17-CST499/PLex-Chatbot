@@ -13,6 +13,7 @@ var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var apiai = require('apiai')
 var path = require('path')
+var config = require('../config/server-info')
 
 var testRoute = require('./controllers/item')
 
@@ -20,7 +21,7 @@ var testRoute = require('./controllers/item')
 var app = express()
 
 // MongoDB instance URL
-var mongoUrl = process.env['MONGODB_URI'] || 'mongodb://localhost/plex'
+var mongoUrl = config['db']
 
 // Establish connection to MongoDB instance.
 mongoose.connect(mongoUrl, function(err, response) {
@@ -49,7 +50,7 @@ app.get('*', function(request, response) {
 app.use('/api/user', testRoute)
 
 // Define port express application will listen on
-var port = process.env.PORT || 8080
+var port = config['port']
 
 // Express app is listening on defined port
 app.listen(port)
