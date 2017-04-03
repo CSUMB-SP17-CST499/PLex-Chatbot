@@ -3,22 +3,21 @@
     border: $bord solid $color;
     padding: $pad; 
 }
-#button{
-    color: lighten(red, 10%);
-    
-}
 
 .Chat{
-    float:right;
+    min-width:200px;
     width:50%;
+    height:600px;
+    display:inline-block;
+    float:right;
 }
 
 #chatArea{
-    background-color: darken(white, 10%);
+    background-color: darken(white, 20%);
     height:80%;
     overflow-y:auto;
     display:flex;
-    flex-flow:column wrap;
+    flex-flow:column;
 }
 
 .message{
@@ -26,13 +25,13 @@
 }
 
 .user{
-    background-color:lighten(blue, 80%);
+    background-color:darken(white, 10%);
     float:right;
     @include roundedBorder(10px, 1px, 10px);
 }
 
 .bot{
-    background-color:lighten(black, 85%);
+    background-color:#00FFFF;
     float:left;
     @include roundedBorder(10px, 1px, 10px);
 }
