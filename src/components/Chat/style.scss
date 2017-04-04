@@ -3,35 +3,13 @@
     border: $bord solid $color;
     padding: $pad; 
 }
-
-.Chat{
-    min-width:200px;
-    width:50%;
-    height:600px;
-    display:inline-block;
-    float:right;
+#button{
+    color: lighten(red, 10%);
+    
 }
 
-#chatArea{
-    background-color: darken(white, 20%);
-    height:80%;
-    overflow-y:auto;
-    display:flex;
-    flex-flow:column;
+#messageArea{
+    color: white;
+    @include roundedBorder();
 }
 
-.message{
-    width:90%;
-}
-
-.user{
-    background-color:darken(white, 10%);
-    float:right;
-    @include roundedBorder(10px, 1px, 10px);
-}
-
-.bot{
-    background-color:#00FFFF;
-    float:left;
-    @include roundedBorder(10px, 1px, 10px);
-}
