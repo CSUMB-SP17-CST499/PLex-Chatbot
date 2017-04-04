@@ -1,32 +1,10 @@
-.Chat {
-  min-width: 200px;
-  width: 50%;
-  height: 600px;
-  display: inline-block;
-  float: right; }
+#button {
+  color: #ff3333; }
 
-#chatArea {
-  background-color: #cccccc;
-  height: 80%;
-  overflow-y: auto;
-  display: flex;
-  flex-flow: column; }
-
-.message {
-  width: 90%; }
-
-.user {
-  background-color: #e6e6e6;
-  float: right;
-  border-radius: 10px;
-  border: 1px solid black;
-  padding: 10px; }
-
-.bot {
-  background-color: #00FFFF;
-  float: left;
-  border-radius: 10px;
-  border: 1px solid black;
-  padding: 10px; }
+#messageArea {
+  color: white;
+  border-radius: 25px;
+  border: 2px solid black;
+  padding: 20px; }
 
 /*# sourceMappingURL=style.css.map */
