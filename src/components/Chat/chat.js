@@ -3,8 +3,6 @@ import classnames from 'classnames';
 import './style.css';
 import axios from 'axios';
 
-import config from '../../../config/server-info'
-
 export class Chat extends Component {
     constructor(props){
         super(props);
@@ -31,7 +29,6 @@ export class Chat extends Component {
   // contained in parameter 'intent'
   handleSubmit(event) {
     
-    console.log(config);
     this.state.conversation.push({'class' : 'user', 'message' : this.state.text})
     this.setState({'text': ''});
 
@@ -49,7 +46,7 @@ export class Chat extends Component {
 
     // This is needed for the component to render properly
     componentDidMount(){
-      console.log(config);
+
     }
 
   render() {
