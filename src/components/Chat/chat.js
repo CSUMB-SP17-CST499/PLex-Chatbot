@@ -3,8 +3,6 @@ import classnames from 'classnames';
 import './style.css';
 import axios from 'axios';
 
-import config from '../../../config/server-info'
-
 export class Chat extends Component {
     constructor(props){
         super(props);
@@ -31,11 +29,11 @@ export class Chat extends Component {
   // contained in parameter 'intent'
   handleSubmit(event) {
     
-    console.log(config);
+
     this.state.conversation.push({'class' : 'user', 'message' : this.state.text})
     this.setState({'text': ''});
 
-    axios.post('http://localhost:' + config['port'] + '/api/user/item', {
+    axios.post('/api/user/item', {
       intent: this.state.text
   }).then((res) => {
       console.log(res['data']['result']);
