@@ -1,13 +1,12 @@
-/*
+/* 
  * Api.ai module that will handle all the logic
  * of making requests to api.ai's service.
  */
 
 var apiai = require('apiai')
-var keys = require('../../config/api')
 
 // Initialize api.ai cient object.
-var apiClient = apiai(keys['apiai'])
+var apiClient = apiai('** api token here **')
 
 /*  Returns an object that defines an interface to interact with api.ai's service
  *
