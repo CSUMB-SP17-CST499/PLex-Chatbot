@@ -16,9 +16,9 @@ router.route('/item').post(function(request, res) {
         if(isComplete) {
             storage.saveItem(obj, function(didSave) {
                 if(didSave) {
-                    res.json({msg: message})
+                    res.json({result: message})
                 } else {
-                    res.json({msg: 'Sorry, I wasn\' able to add your item'})
+                    res.json({result: 'Sorry, I wasn\'t able to add your item'})
                 }
             })
         } else {
