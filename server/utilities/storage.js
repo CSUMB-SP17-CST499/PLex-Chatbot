@@ -1,4 +1,4 @@
-/* 
+/*
  * Database module that will handle all the logic
  * of saving items in our MongoDB instance.
  */
