@@ -2,9 +2,8 @@ var express = require('express')
 var apiai = require('apiai')
 
 var Item = require('../models/item')
-
-var DBStorage = require('../utilities/storage')
-var Apiai = require('../utilities/apiai')
+var storage = require('../js/storage')
+var Apiai = require('../js/apiai')
 
 var router = express.Router()
 
