@@ -10,7 +10,7 @@ var apiai = require('apiai')
 
 var GoogleImages = require('google-images')
 
-const keys = require('../../api')
+const keys = require('../../config/api')
 
 // Initialize api.ai client object.
 var apiClient = apiai(keys['apiai'])
