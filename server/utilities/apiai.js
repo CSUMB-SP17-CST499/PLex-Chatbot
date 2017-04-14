@@ -10,11 +10,13 @@ var apiai = require('apiai')
 
 var GoogleImages = require('google-images')
 
+const keys = require('../../api')
+
 // Initialize api.ai client object.
-var apiClient = apiai('04f7edf5f3b243b2a3515eeb45e3690f')
+var apiClient = apiai(keys['apiai'])
 
 //Initialize googleImages client object
-const client = new GoogleImages('010696085168247858620:hzhmfbos65w', 'AIzaSyBWo_q3AFv9TCVu-OZuc4I_bYxEgHvt-FQ');
+const client = new GoogleImages(keys['gi-client-id'], keys['gi-api-key']);
 
 /*  Returns an object that defines an interface to interact with api.ai's service
  *
