@@ -28,22 +28,29 @@ export class Chat extends Component {
   // Send post request to chatbot containing the user's request
   // contained in parameter 'intent'
   handleSubmit(event) {
-    
+
+
     this.state.conversation.push({'class' : 'user', 'message' : this.state.text})
     this.setState({'text': ''});
-
+    this.forceUpdate();
+    this.updateScroll();
     axios.post('/api/user/item', {
       intent: this.state.text
   }).then((res) => {
       console.log(res['data']['result']);
       this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
-      this.forceUpdate()
+      this.forceUpdate();
+      this.updateScroll();
     }).catch(function (error) {
       console.log(error)
     })
 
   }
 
+  updateScroll(){
+    var element = document.getElementById("chatArea");
+    element.scrollTop = element.scrollHeight;
+  }
     // This is needed for the component to render properly
     componentDidMount(){
 

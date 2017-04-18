@@ -19,8 +19,13 @@ export class Notebook extends Component{
         }
 
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.handleRefresh = this.handleRefresh.bind(this);
     }
 
+    handleRefresh(){
+      //Axios call goes here and updates state array
+      this.forceUpdate();
+    }
     componentDidMount(){
 
     }
@@ -28,20 +33,22 @@ export class Notebook extends Component{
     render(){
         let items = this.state.items.map((n, index) =>
           <div className="item">
-              <span className='itemName'>
-                {n.name}
-              </span>
               <img className='itemPic' src={n.image}>
+              <span className='itemName'>
+                {n.price} : {n.name}
+              </span>
               <div className='itemDescription'>
                 {n.description}
               </div>
           </div>
       )
         return(
+          <div className="notebook">
+            <button id="refresh" onClick={this.handleRefresh}>Refresh Notebook</button>
             <div>
-
+              {items}
             </div>
-
+          </div>
         );
     }
 
