@@ -73,9 +73,13 @@ export class Chat extends Component {
 
           {conversation}
         </div>
-            <input type="text" value={this.state.text} onChange={this.handleChange} placeholder="Enter message here">
-            </input>
-            <button onClick={this.handleSubmit}>Enter</button>
+        <div id="textArea">
+            <span id="textSpan">
+              <input id="textInput" type="text" value={this.state.text} onChange={this.handleChange} placeholder="Enter message here"></input>
+            </span>
+            <button id="textButton" onClick={this.handleSubmit}>Enter</button>
+
+        </div>
       </div>
     );
   }

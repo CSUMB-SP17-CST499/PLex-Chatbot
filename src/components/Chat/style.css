@@ -1,22 +1,29 @@
 .Chat {
   min-width: 200px;
   width: 50%;
-  height: 600px;
+  position: absolute;
+  top: 200px;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
   display: inline-block;
   float: right; }
 
 #chatArea {
   background-color: #cccccc;
-  height: 80%;
+  height: 90%;
   overflow-y: auto;
   display: flex;
   flex-flow: column; }
 
 .message {
-  width: 90%; }
+  width: 90%;
+  padding-top: 5px; }
 
 .user {
   background-color: #e6e6e6;
+  text-align: right;
+  padding-top: 5px;
   float: right;
   border-radius: 10px;
   border: 1px solid black;
@@ -24,9 +31,30 @@
 
 .bot {
   background-color: #00FFFF;
+  text-alignt: left;
   float: left;
   border-radius: 10px;
   border: 1px solid black;
   padding: 10px; }
+
+#textArea {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row; }
+
+#textSpan {
+  display: block;
+  overflow: hidden;
+  padding-right: 10px;
+  flex-grow: 10; }
+
+#textInput {
+  float: left;
+  width: 100%; }
+
+#textButton {
+  float: right;
+  flex-grow: 1; }
 
 /*# sourceMappingURL=style.css.map */

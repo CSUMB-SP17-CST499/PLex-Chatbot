@@ -1,20 +1,24 @@
 @mixin roundedBorder($rad : 25px, $bord : 2px, $pad : 20px, $color: black){
     border-radius: $rad;
     border: $bord solid $color;
-    padding: $pad; 
+    padding: $pad;
 }
 
 .Chat{
     min-width:200px;
     width:50%;
-    height:600px;
+    position:absolute;
+    top:200px;
+    bottom:0;
+    right:0;
+    padding:10px;
     display:inline-block;
     float:right;
 }
 
 #chatArea{
     background-color: darken(white, 20%);
-    height:80%;
+    height:90%;
     overflow-y:auto;
     display:flex;
     flex-flow:column;
@@ -22,16 +26,47 @@
 
 .message{
     width:90%;
+    padding-top:5px;
 }
 
 .user{
     background-color:darken(white, 10%);
+    text-align:right;
+    padding-top:5px;
     float:right;
     @include roundedBorder(10px, 1px, 10px);
 }
 
 .bot{
     background-color:#00FFFF;
+
+    text-alignt:left;
     float:left;
     @include roundedBorder(10px, 1px, 10px);
+}
+
+#textArea{
+  width:100%;
+   overflow: hidden;
+   display:flex;
+   flex-flow:row;
+}
+
+#textSpan{
+    display: block;
+    overflow: hidden;
+    padding-right:10px;
+    flex-grow: 10;
+
+}
+
+#textInput{
+    float:left;
+    width:100%;
+}
+
+#textButton{
+    //width:85px;
+    float:right;
+    flex-grow:1;
 }
