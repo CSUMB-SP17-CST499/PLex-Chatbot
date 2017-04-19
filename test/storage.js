@@ -1,4 +1,4 @@
-var storage = require('../server/js/storage')
+var storage = require('../server/utilities/storage')
 var expect = require('chai').expect
 var mongoose = require('mongoose')
 var Item = require('../server/models/item')
@@ -43,6 +43,21 @@ describe('Save to database', function() {
         storage.saveItem(newItem, function(result) {
             expect(result).to.equal(false)
             done()
+        })
+    })
+
+    it('retrieves all items from the database', function(done) {
+        var newItem = {
+            name: 'TestItem',
+            picture: 'url.to.item.picture',
+            description: 'This is a test item.'
+        }
+
+        storage.saveItem(newItem, function(result) {
+            storage.getItems(function(items) {
+                expect(items.length).to.not.equal(0)
+                done()
+            })
         })
     })
 
