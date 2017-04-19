@@ -17,10 +17,13 @@
   flex-flow: column; }
 
 .message {
-  width: 90%; }
+  width: 90%;
+  padding-top: 5px; }
 
 .user {
   background-color: #e6e6e6;
+  text-align: right;
+  padding-top: 5px;
   float: right;
   border-radius: 10px;
   border: 1px solid black;
@@ -28,6 +31,7 @@
 
 .bot {
   background-color: #00FFFF;
+  text-alignt: left;
   float: left;
   border-radius: 10px;
   border: 1px solid black;
