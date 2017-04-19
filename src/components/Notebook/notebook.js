@@ -24,6 +24,12 @@ export class Notebook extends Component{
 
     handleRefresh(){
       //Axios call goes here and updates state array
+      axios.get('/api/item').then((res) => {
+        console.log(res);
+        this.forceUpdate();
+      }).catch(function (error){
+        console.log(error);
+      })
       this.forceUpdate();
     }
     componentDidMount(){
