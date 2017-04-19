@@ -11,8 +11,10 @@ var Notebook = require('../models/notebook')
 
 /*  Returns an object that defines an interface to interact with MongoDB.
  *
- *  saveItem(): Saves an item returned by api.ai module that contains all the
- *              attributes specified by the user.
+ *  _saveItem(): Saves an item returned by api.ai module that contains all the
+ *               attributes specified by the user.
+ *
+ *  _getItems(): Currently returns every item stored in the database
  */
 
 DBStorage = function() {
@@ -26,8 +28,15 @@ DBStorage = function() {
         })
     }
 
+    var _getItems = function(callback) {
+        Item.find({}, function(err, items) {
+            callback(items)
+        })
+    }
+
     return {
-        saveItem: _saveItem
+        saveItem: _saveItem,
+        getItems:  _getItems
     }
 }()
 

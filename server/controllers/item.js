@@ -1,31 +1,14 @@
 var express = require('express')
-var apiai = require('apiai')
 
-var Item = require('../models/item')
-
-var DBStorage = require('../utilities/storage')
-var Apiai = require('../utilities/apiai')
+var storage = require('../utilities/storage')
 
 var router = express.Router()
 
-var apiai = Apiai()
-
-router.route('/item').post(function(request, res) {
-    var text = request.body.intent
-
-    apiai.request(text, function(isComplete, obj, message) {
-        if(isComplete) {
-            storage.saveItem(obj, function(didSave) {
-                if(didSave) {
-                    res.json({result: message})
-                } else {
-                    res.json({result: 'Sorry, I wasn\'t able to add your item'})
-                }
-            })
-        } else {
-            res.send({result: message})
-        }
+router.route('/item').get(function(request, response) {
+    storage.getItems(function(items) {
+        console.log(items)
+        response.json({items: items})
     })
 })
 
-module.exports = router;
+module.exports = router

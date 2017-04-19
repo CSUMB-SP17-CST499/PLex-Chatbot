@@ -34,7 +34,7 @@ export class Chat extends Component {
     this.setState({'text': ''});
     this.forceUpdate();
     this.updateScroll();
-    axios.post('/api/user/item', {
+    axios.post('/api/request', {
       intent: this.state.text
   }).then((res) => {
       console.log(res['data']['result']);

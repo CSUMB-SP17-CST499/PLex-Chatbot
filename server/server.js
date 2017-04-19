@@ -15,7 +15,8 @@ var apiai = require('apiai')
 var path = require('path')
 var config = require('../config/server-info')
 
-var testRoute = require('./controllers/item')
+var request = require('./controllers/request')
+var item = require('./controllers/item')
 
 // Initialize express app
 var app = express()
@@ -43,11 +44,13 @@ app.use(bodyParser.json())
 
 // Example endpoint
 // Always return the main index.html, so react-router render the route in the client
-app.get('*', function(request, response) {
+app.get('/', function(request, response) {
   response.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'))
 });
 
-app.use('/api/user', testRoute)
+app.use('/api', request)
+app.use('/api', item)
+
 
 // Define port express application will listen on
 var port = config['port']
