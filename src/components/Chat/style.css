@@ -29,4 +29,24 @@
   border: 1px solid black;
   padding: 10px; }
 
+#textArea {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row; }
+
+#textSpan {
+  display: block;
+  overflow: hidden;
+  padding-right: 10px;
+  flex-grow: 10; }
+
+#textInput {
+  float: left;
+  width: 100%; }
+
+#textButton {
+  float: right;
+  flex-grow: 1; }
+
 /*# sourceMappingURL=style.css.map */

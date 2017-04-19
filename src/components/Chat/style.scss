@@ -1,7 +1,7 @@
 @mixin roundedBorder($rad : 25px, $bord : 2px, $pad : 20px, $color: black){
     border-radius: $rad;
     border: $bord solid $color;
-    padding: $pad; 
+    padding: $pad;
 }
 
 .Chat{
@@ -34,4 +34,30 @@
     background-color:#00FFFF;
     float:left;
     @include roundedBorder(10px, 1px, 10px);
+}
+
+#textArea{
+  width:100%;
+   overflow: hidden;
+   display:flex;
+   flex-flow:row;
+}
+
+#textSpan{
+    display: block;
+    overflow: hidden;
+    padding-right:10px;
+    flex-grow: 10;
+
+}
+
+#textInput{
+    float:left;
+    width:100%;
+}
+
+#textButton{
+    //width:85px;
+    float:right;
+    flex-grow:1;
 }
