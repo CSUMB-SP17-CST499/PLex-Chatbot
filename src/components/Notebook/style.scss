@@ -1,0 +1,33 @@
+@mixin roundedBorder($rad : 25px, $bord : 2px, $pad : 20px, $color: black){
+    border-radius: $rad;
+    border: $bord solid $color;
+    padding: $pad;
+}
+
+.notebook{
+  width:50%;
+  display:inline-block;
+  float:left;
+}
+
+#itemList{
+  overflow-y:auto;
+  height:80%;
+  display:flex;
+  flex-flow:row wrap;
+}
+
+.item{
+  @include roundedBorder();
+  display:flex;
+  flex-flow:column;
+}
+
+.itemPic{
+  max-width: 200px;
+  max-height: 200px;
+}
+
+#refresh{
+  text-align:center;
+}
