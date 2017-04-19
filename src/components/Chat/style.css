@@ -1,13 +1,17 @@
 .Chat {
   min-width: 200px;
   width: 50%;
-  height: 600px;
+  position: absolute;
+  top: 200px;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
   display: inline-block;
   float: right; }
 
 #chatArea {
   background-color: #cccccc;
-  height: 80%;
+  height: 90%;
   overflow-y: auto;
   display: flex;
   flex-flow: column; }
