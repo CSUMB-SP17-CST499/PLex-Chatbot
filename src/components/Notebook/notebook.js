@@ -31,9 +31,9 @@ export class Notebook extends Component{
     }
 
     render(){
-        let items = this.state.items.map((n, index) =>
+        let items = this.state.item.map((n, index) =>
           <div className="item">
-              <img className='itemPic' src={n.image}>
+              <img className='itemPic' src={n.image} />
               <span className='itemName'>
                 {n.price} : {n.name}
               </span>
@@ -41,7 +41,7 @@ export class Notebook extends Component{
                 {n.description}
               </div>
           </div>
-      )
+      );
         return(
           <div className="notebook">
             <button id="refresh" onClick={this.handleRefresh}>Refresh Notebook</button>

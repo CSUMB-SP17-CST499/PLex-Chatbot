@@ -4,17 +4,18 @@ import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import './style.css';
 import {Chat} from '../Chat/chat';
+import {Notebook} from '../Notebook/notebook';
 
 class App extends Component {
   constructor(props) {
     super(props)
-    
+
     this.componentDidMount = this.componentDidMount.bind(this);
   }
-  
+
   // This is needed for the component to render properly
   componentDidMount(){
-    
+
   }
 
   render() {
@@ -26,7 +27,7 @@ class App extends Component {
         </div>
 
         <br />
-
+        <Notebook />
         <Chat />
 
       </div>
