@@ -10,10 +10,10 @@ export class Notebook extends Component{
         super(props);
         this.state={
           'item':[{
-            'name' : '',
-            'price' : '',
-            'image' : '',
-            'description' : ''
+            'name' : 'Chair',
+            'price' : '$40',
+            'image' : 'https://images.hayneedle.com/mgen/options:FLSH912_15_Orange.jpg?is=555,555,0xffffff',
+            'description' : 'Orange chair'
 
           }]
         }
@@ -44,10 +44,11 @@ export class Notebook extends Component{
       );
         return(
           <div className="notebook">
-            <button id="refresh" onClick={this.handleRefresh}>Refresh Notebook</button>
-            <div>
+
+            <div id="itemList">
               {items}
             </div>
+            <button id="refresh" onClick={this.handleRefresh}>Refresh Notebook</button>
           </div>
         );
     }

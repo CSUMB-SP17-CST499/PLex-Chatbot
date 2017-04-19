@@ -1,0 +1,26 @@
+.notebook {
+  width: 50%;
+  display: inline-block;
+  float: left; }
+
+#itemList {
+  overflow-y: auto;
+  height: 80%;
+  display: flex;
+  flex-flow: row wrap; }
+
+.item {
+  border-radius: 25px;
+  border: 2px solid black;
+  padding: 20px;
+  display: flex;
+  flex-flow: column; }
+
+.itemPic {
+  max-width: 200px;
+  max-height: 200px; }
+
+#refresh {
+  text-align: center; }
+
+/*# sourceMappingURL=style.css.map */
