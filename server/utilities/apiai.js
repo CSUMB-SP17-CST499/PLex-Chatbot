@@ -26,44 +26,55 @@ function Apiai() {
     return {
         request: function(text, callback) {
 
-            var options = { sessionId: '7121', resetContexts: false};
+            var options = { sessionId: '7128281', resetContexts: false};
             var req = apiClient.textRequest(text, options)
 
 
             req.on('response', function(response) {
+
+                //Response speech from request
                 var chatbotSpeech = response.result.fulfillment.speech
 
+                //verify that the additem-no context is present
+                var names = response['result']['contexts']
 
-                  console.log("response: " + JSON.stringify(response));
-                 // console.log("req" + req)
-                if(!response.result.actionIncomplete && response.result.contexts[response.result.contexts.length - 1].name == 'no-additem') {
-                  //Bundle object
-                  console.log("request completed");
+                var isRequestComplete = null
 
-                    //reset context to begin a new request
-                    options['resetContexts'] = true
-                    var request = apiClient.textRequest("Hello", options)
-                    request.on('response', function(response) {
-                        console.log("reset context completed")
-                        console.log(response);
+                console.log("response: " + JSON.stringify(response));
+                names.forEach(function(name){
 
-                    });
+                    if(!response.result.actionIncomplete && (name['name'] == 'additem-no-1' || name['name'] == 'additem-no-2' )) {
 
-                    request.on('error', function(error) {
-                        console.log("reset context failed")
-                        console.log(error);
-                    });
-                    request.end()
+                        //Bundle object
+                        console.log("request completed");
 
-                  // client.search("pink").then(function(images) {console.log(images) });
-                    callback(false, {name: 'Chair', description: 'This is a chair', picture: 'url.to.picture'}, chatbotSpeech)
-                } else {
-                              console.log("request incompleted");
-                              console.log("Incomplete chat: " + chatbotSpeech)
-                    callback(false, null, chatbotSpeech)
+                       //reset context to begin a new request
+                        options['resetContexts'] = true
+                        var request = apiClient.textRequest("Hello", options)
+                        request.on('response', function(response) {
+                            console.log("reset context completed")
+                            console.log(response);
+
+                        });
+
+                        request.on('error', function(error) {
+                            console.log("reset context failed")
+                            console.log(error);
+                        });
+
+                        // client.search("pink").then(function(images) {console.log(images) });
+                        isRequestComplete = true
+                        return (callback(false, {name: 'Chair', description: 'This is a chair', picture: 'url.to.picture'}, chatbotSpeech))
+
+                    }
+
+                })
+                if(!isRequestComplete) {
+                    console.log("Request incomplete: " + chatbotSpeech)
+                    return (callback(false, null, chatbotSpeech))
                 }
-            })
 
+            })
             req.on('error', function(error) {
                 console.log(error)
             })
