@@ -6,7 +6,6 @@ var router = express.Router()
 
 router.route('/item').get(function(request, response) {
     storage.getItems(function(items) {
-        console.log(items)
         response.json({items: items})
     })
 })
