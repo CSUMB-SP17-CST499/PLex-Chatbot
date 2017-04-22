@@ -8,10 +8,12 @@ export class Chat extends Component {
         super(props);
         this.state = {
             'text' : '',
+            'sessionId': '123456', //TODO: generate unique sessionIds
             'conversation': [{
               'class' : '',
               'message' : ''
-            }]
+            }],
+
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,13 +31,16 @@ export class Chat extends Component {
   // contained in parameter 'intent'
   handleSubmit(event) {
 
-
+    console.log("Conversation: " + this.state.text)
     this.state.conversation.push({'class' : 'user', 'message' : this.state.text})
     this.setState({'text': ''});
     this.forceUpdate();
     this.updateScroll();
+    console.log("SessionId handleSubmit: " + this.state.sessionId)
     axios.post('/api/request', {
-      intent: this.state.text
+        intent: this.state.text,
+        sessionId: this.state.sessionId,
+
   }).then((res) => {
       console.log(res['data']['result']);
       this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
@@ -53,10 +58,21 @@ export class Chat extends Component {
   }
     // This is needed for the component to render properly
     componentDidMount(){
-
+        console.log("In the componentDidMount")
+        axios.post('/api/init', {
+            sessionId: this.state.sessionId,
+        }).then((res) => {
+            console.log(res['data']['result']);
+            this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
+            this.forceUpdate();
+            this.updateScroll();
+        }).catch(function (error) {
+            console.log(error)
+        })
     }
 
   render() {
+    console.log(this.state)
     let conversation = this.state.conversation.map((n, index) =>
             <div className="message">
               <span className={n.class}>

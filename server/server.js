@@ -17,6 +17,7 @@ var config = require('../config/server-info')
 
 var request = require('./controllers/request')
 var item = require('./controllers/item')
+var init = require('./controllers/init')
 
 // Initialize express app
 var app = express()
@@ -50,6 +51,7 @@ app.get('/', function(request, response) {
 
 app.use('/api', request)
 app.use('/api', item)
+app.use('/api', init)
 
 
 // Define port express application will listen on
