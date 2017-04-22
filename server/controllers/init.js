@@ -15,7 +15,7 @@ var router = express.Router()
 
 router.route('/init').post(function(request, res) {
     var sessionId = request.body.sessionId
-
+    console.log("SessionId" + sessionId)
     apiai.init(sessionId, function(message) {
         res.json({result: message})
     })

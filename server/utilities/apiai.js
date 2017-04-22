@@ -88,6 +88,7 @@ Apiai = function (){
 
     var _init = function(sessionId, callback){
 
+        console.log("SessionId" + sessionId)
         var request = apiClient.eventRequest({ name: "WELCOME" }, {sessionId: sessionId});
 
         request.on('response', function(response) {

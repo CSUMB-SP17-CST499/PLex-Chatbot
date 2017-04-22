@@ -31,11 +31,12 @@ export class Chat extends Component {
   // contained in parameter 'intent'
   handleSubmit(event) {
 
-
+    console.log("Conversation: " + this.state.text)
     this.state.conversation.push({'class' : 'user', 'message' : this.state.text})
     this.setState({'text': ''});
     this.forceUpdate();
     this.updateScroll();
+    console.log("SessionId handleSubmit: " + this.state.sessionId)
     axios.post('/api/request', {
         intent: this.state.text,
         sessionId: this.state.sessionId,

@@ -16,7 +16,7 @@ router.route('/request').post(function(request, res) {
     var text = request.body.intent
     var sessionId = request.body.sessionId
 
-    apiai.request(text, sessionId,  function(isComplete, obj, message) {
+    apiai.request(sessionId, text, function(isComplete, obj, message) {
         if(isComplete) {
             storage.saveItem(obj, function(didSave) {
                 if(didSave) {
