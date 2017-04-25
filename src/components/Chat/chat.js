@@ -8,7 +8,7 @@ export class Chat extends Component {
         super(props);
         this.state = {
             'text' : '',
-            'sessionId': '123456', //TODO: generate unique sessionIds
+            'sessionId': '', //TODO: generate unique sessionIds
             'conversation': [{
               'class' : '',
               'message' : ''
@@ -27,25 +27,38 @@ export class Chat extends Component {
     this.setState({text: event.target.value})
   }
 
+  // Send post request to chatbot containing the user's request
+  // contained in parameter 'intent'
+
   axiosCall(){
-    console.log("Conversation: " + this.state.text)
-    this.state.conversation.push({'class' : 'user', 'message' : this.state.text})
-    this.setState({'text': ''});
-    this.forceUpdate();
-    this.updateScroll();
-    console.log("SessionId handleSubmit: " + this.state.sessionId)
-    axios.post('/api/request', {
+
+      this.userCall()
+
+    axios.post('/api/request/text', {
         intent: this.state.text,
         sessionId: this.state.sessionId,
+    }).then((res) => {
+        console.log(res['data']['result']);
+        this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
+        this.forceUpdate();
+        this.updateScroll();
+        console.log("Iscompleted result:" + res['data']['isCompleted']);
+        if(res['data']['isCompleted']){
+            setTimeout(this.nextConversation(), 1000000)
+        }
 
-  }).then((res) => {
-      console.log(res['data']['result']);
-      this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
-      this.forceUpdate();
-      this.updateScroll();
     }).catch(function (error) {
       console.log(error)
     })
+  }
+
+  userCall(){
+
+      console.log("Conversation: " + this.state.text)
+      this.state.conversation.push({'class' : 'user', 'message' : this.state.text})
+      this.setState({'text': ''});
+      this.forceUpdate();
+      this.updateScroll();
   }
 
 
@@ -62,20 +75,41 @@ export class Chat extends Component {
     var element = document.getElementById("chatArea");
     element.scrollTop = element.scrollHeight;
   }
-    // This is needed for the component to render properly
+    // This is needed for the component to render properly & trigger WELCOME salutation event
     componentDidMount(){
-        console.log("In the componentDidMount")
-        axios.post('/api/init', {
+        this.executeSalutation("WELCOME")
+    }
+
+    //Triggers the NEXT salutation event
+    nextConversation(){
+        this.executeSalutation("NEXT")
+    }
+
+    //Executes any of the two salutations
+    executeSalutation(intentName){
+
+        this.generateNewSessionId()
+        axios.post('/api/request/salutation', {
             sessionId: this.state.sessionId,
+            event: intentName
         }).then((res) => {
-            console.log(res['data']['result']);
+            console.log("response" + res);
             this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
             this.forceUpdate();
             this.updateScroll();
         }).catch(function (error) {
-            console.log(error)
+            console.log("error in salutation")
+            console.log(error.stack)
         })
+
     }
+    generateNewSessionId(){
+        //TODO: generate a uuid for sessions
+        console.log("Old: sessionId: " + this.state.sessionId)
+        this.state.sessionId = Math.floor(Math.random() * (12345678 - 0 + 1)) + 0;
+        console.log("New: sessionId: " + this.state.sessionId)
+    }
+
 
     checkEnter(event){
         if (event.key == 'Enter'){
