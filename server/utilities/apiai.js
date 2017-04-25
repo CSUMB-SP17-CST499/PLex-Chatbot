@@ -40,8 +40,8 @@ Apiai = function (){
 
             //verify that the additem-no context is present
             var names = response['result']['contexts']
-
             var isRequestComplete = null
+            var itemParameters = null
 
             console.log("Response request: " + util.inspect(response, false, null));
             names.forEach(function(name){
@@ -51,25 +51,30 @@ Apiai = function (){
                     //Bundle object
                     console.log("request completed");
 
-                    //reset context to begin a new request
-                    //TODO: remove reset context to start new conversation with sessionID
-                    options['resetContexts'] = true
-                    var request = apiClient.textRequest("Hello", options)
-                    request.on('response', function(response) {
-                        console.log("reset context completed")
-                        console.log("Response reset context: " + util.inspect(response, false, null));
+                    if(itemParameters != null){
 
-                    });
+                        //Building search query using color, notebook, and itemType
+                        var searchQuery = itemParameters['color'] + " "
+                            + itemParameters['notebook.original'] + " "
+                            + itemParameters['itemType']
+                        client.search(searchQuery).then(
+                            function(images) {
 
-                    request.on('error', function(error) {
-                        console.log("reset context failed")
-                        console.log(error);
-                    });
+                                console.log("Images request: " + util.inspect(images, false, null))
+                                isRequestComplete = true
+                                return (callback(true, {
+                                    name: itemParameters['itemType'],
+                                    description: searchQuery ,
+                                    picture: images[0]['url']}, chatbotSpeech))
 
-                    // client.search("pink").then(function(images) {console.log(images) });
-                    isRequestComplete = true
-                    return (callback(true, {name: 'Chair', description: 'This is a chair', picture: 'url.to.picture'}, chatbotSpeech))
+                            });
 
+
+
+                    }
+
+                }else if(name['name'] == 'additem'){
+                    itemParameters = name['parameters']
                 }
 
             })
