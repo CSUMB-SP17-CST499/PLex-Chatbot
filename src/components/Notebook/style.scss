@@ -26,11 +26,17 @@
   @include roundedBorder();
   display:flex;
   flex-flow:column;
+  max-height:300px;
 }
 
 .itemPic{
   max-width: 200px;
   max-height: 200px;
+}
+
+.itemDescription{
+  overflow-y:auto;
+  max-height:100px;
 }
 
 #refresh{
