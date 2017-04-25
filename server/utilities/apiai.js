@@ -68,7 +68,7 @@ Apiai = function (){
 
                     // client.search("pink").then(function(images) {console.log(images) });
                     isRequestComplete = true
-                    return (callback(false, {name: 'Chair', description: 'This is a chair', picture: 'url.to.picture'}, chatbotSpeech))
+                    return (callback(true, {name: 'Chair', description: 'This is a chair', picture: 'url.to.picture'}, chatbotSpeech))
 
                 }
 
@@ -86,10 +86,9 @@ Apiai = function (){
         req.end()
     }
 
-    var _init = function(sessionId, callback){
+    var _salutation = function(sessionId, event, callback){
 
-        console.log("SessionId" + sessionId)
-        var request = apiClient.eventRequest({ name: "WELCOME" }, {sessionId: sessionId});
+        var request = apiClient.eventRequest({ name: event }, {sessionId: sessionId});
 
         request.on('response', function(response) {
             console.log("Response init: " + util.inspect(response, false, null));
@@ -108,7 +107,7 @@ Apiai = function (){
     return{
 
         request: _request,
-        init:  _init,
+        salutation: _salutation,
     }
 }()
 
