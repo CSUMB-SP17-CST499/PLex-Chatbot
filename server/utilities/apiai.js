@@ -63,8 +63,15 @@ Apiai = function (){
                                 console.log("Images request: " + util.inspect(images[0], false, null))
                                 return (callback(true, {
                                     name: itemParameters['itemType'],
+                                    price: itemParameters['price'],
                                     description: searchQuery ,
-                                    picture: images[0]['url']}, chatbotSpeech))
+                                    picture: images[0]['url'],
+                                    time: itemParameters['leadTime'],
+                                    material: itemParameters['material'],
+                                    fabric: itemParameters['fabric']
+                                }, chatbotSpeech))
+
+
 
                             });
 
