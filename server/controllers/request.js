@@ -17,28 +17,29 @@ router.route('/text').post(function(request, res) {
     var sessionId = request.body.sessionId
 
     apiai.request(sessionId, text, function(isComplete, obj, message) {
+
+        console.log("Check is Complete: " + isComplete)
         if(isComplete) {
-
-
-            console.log("Item was successfully added to the database but not really " + message)
 
             storage.saveItem(obj, function(didSave) {
                 if(didSave) {
-                    res.json({
+                    return (res.json({
                         result: message,
-                        isCompleted: isComplete
-                    })
+                        isCompleted: didSave,
+                    }))
+
                 } else {
-                    res.json({result: 'Sorry, I wasn\'t able to add your item',
-                        isCompleted: didSave
-                    })
+                   return(res.json({
+                       result: 'Sorry, I wasn\'t able to add your item',
+                        isCompleted: didSave,
+                    }))
                 }
             })
-        } else {
-            res.json({
+        }else {
+            return(res.json({
                 result: message,
                 isCompleted: isComplete
-            })
+            }))
         }
     })
 })

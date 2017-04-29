@@ -42,9 +42,11 @@ export class Chat extends Component {
         this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
         this.forceUpdate();
         this.updateScroll();
-        console.log("Iscompleted result:" + res['data']['isCompleted']);
+
+        console.log("Iscompleted result axios:" + JSON.stringify(res['data'], null, 2));
+
         if(res['data']['isCompleted']){
-            setTimeout(this.nextConversation(), 1000000)
+            setTimeout(this.nextConversation(), 10000)
         }
 
     }).catch(function (error) {
@@ -105,9 +107,7 @@ export class Chat extends Component {
     }
     generateNewSessionId(){
         //TODO: generate a uuid for sessions
-        console.log("Old: sessionId: " + this.state.sessionId)
         this.state.sessionId = Math.floor(Math.random() * (12345678 - 0 + 1)) + 0;
-        console.log("New: sessionId: " + this.state.sessionId)
     }
 
 

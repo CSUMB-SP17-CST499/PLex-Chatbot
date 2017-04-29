@@ -30,10 +30,12 @@ DBStorage = function() {
     var _saveItem = function(obj, callback) {
         new Item(obj).save().then(function() {
             console.log('Item saved successfully.')
-            callback(true)
-        }, function(err) {
+            return(callback(true))
+        },
+            function(err) {
+
             console.log('Error saving item: ' + err)
-            callback(false)
+            return (callback(false))
         })
     }
 
