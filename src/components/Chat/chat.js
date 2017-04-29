@@ -8,52 +8,113 @@ export class Chat extends Component {
         super(props);
         this.state = {
             'text' : '',
+            'sessionId': '', //TODO: generate unique sessionIds
             'conversation': [{
               'class' : '',
               'message' : ''
-            }]
+            }],
+
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.checkEnter = this.checkEnter.bind(this);
+        this.axiosCall = this.axiosCall.bind(this);
     };
 
     // Updating this.state.text variable as user types
   handleChange(event) {
-    this.setState({text: event.target.value}, function() {
-      console.log(this.state.text)
+    this.setState({text: event.target.value})
+  }
+
+  // Send post request to chatbot containing the user's request
+  // contained in parameter 'intent'
+
+  axiosCall(){
+
+      this.userCall()
+
+    axios.post('/api/request/text', {
+        intent: this.state.text,
+        sessionId: this.state.sessionId,
+    }).then((res) => {
+        console.log(res['data']['result']);
+        this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
+        this.forceUpdate();
+        this.updateScroll();
+
+        console.log("Iscompleted result axios:" + JSON.stringify(res['data'], null, 2));
+
+        if(res['data']['isCompleted']){
+            setTimeout(this.nextConversation(), 10000)
+        }
+
+    }).catch(function (error) {
+      console.log(error)
     })
   }
+
+  userCall(){
+
+      console.log("Conversation: " + this.state.text)
+      this.state.conversation.push({'class' : 'user', 'message' : this.state.text})
+      this.setState({'text': ''});
+      this.forceUpdate();
+      this.updateScroll();
+  }
+
 
   // Send post request to chatbot containing the user's request
   // contained in parameter 'intent'
   handleSubmit(event) {
 
-
-    this.state.conversation.push({'class' : 'user', 'message' : this.state.text})
-    this.setState({'text': ''});
-    this.forceUpdate();
-    this.updateScroll();
-    axios.post('/api/request', {
-      intent: this.state.text
-  }).then((res) => {
-      console.log(res['data']['result']);
-      this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
-      this.forceUpdate();
-      this.updateScroll();
-    }).catch(function (error) {
-      console.log(error)
-    })
+    this.axiosCall();
 
   }
+
 
   updateScroll(){
     var element = document.getElementById("chatArea");
     element.scrollTop = element.scrollHeight;
   }
-    // This is needed for the component to render properly
+    // This is needed for the component to render properly & trigger WELCOME salutation event
     componentDidMount(){
+        this.executeSalutation("WELCOME")
+    }
 
+    //Triggers the NEXT salutation event
+    nextConversation(){
+        this.executeSalutation("NEXT")
+    }
+
+    //Executes any of the two salutations
+    executeSalutation(intentName){
+
+        this.generateNewSessionId()
+        axios.post('/api/request/salutation', {
+            sessionId: this.state.sessionId,
+            event: intentName
+        }).then((res) => {
+            console.log("response" + res);
+            this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
+            this.forceUpdate();
+            this.updateScroll();
+        }).catch(function (error) {
+            console.log("error in salutation")
+            console.log(error.stack)
+        })
+
+    }
+    generateNewSessionId(){
+        //TODO: generate a uuid for sessions
+        this.state.sessionId = Math.floor(Math.random() * (12345678 - 0 + 1)) + 0;
+    }
+
+
+    checkEnter(event){
+        if (event.key == 'Enter'){
+            this.axiosCall();
+        }
     }
 
   render() {
@@ -75,7 +136,7 @@ export class Chat extends Component {
         </div>
         <div id="textArea">
             <span id="textSpan">
-              <input id="textInput" type="text" value={this.state.text} onChange={this.handleChange} placeholder="Enter message here"></input>
+              <input id="textInput" type="text" value={this.state.text} onChange={this.handleChange} onKeyPress={this.checkEnter} placeholder="Enter message here"></input>
             </span>
             <button id="textButton" onClick={this.handleSubmit}>Enter</button>
 

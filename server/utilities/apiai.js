@@ -1,14 +1,14 @@
 /*
- * Api.ai module that will handle all the logic
- * of making requests to api.ai's service.
+ * Api.ai module:  that will handle all the logic of making requests
+ *                  to api.ai's service.
  *
- * Google-images module will handle searching images
- * with user's requirements.
+ * Google-images module:  will handle searching images with user's
+ *                          requirements.
  */
 
 var apiai = require('apiai')
-
 var GoogleImages = require('google-images')
+var util = require('util');
 
 const keys = require('../../config/api')
 
@@ -20,68 +20,98 @@ const client = new GoogleImages(keys['gi-client-id'], keys['gi-api-key']);
 
 /*  Returns an object that defines an interface to interact with api.ai's service
  *
- *   request(): makes a request to api.ai with the text string supplied by the user.
+ *   _request(): makes a request to api.ai with the text string supplied by the user.
+ *
+ *   _init(): makes an event request to api.ai to invoke the "WELCOME" intent
+ *
  */
-function Apiai() {
-    return {
-        request: function(text, callback) {
 
-            var options = { sessionId: '7128281', resetContexts: false};
-            var req = apiClient.textRequest(text, options)
+Apiai = function (){
 
+    var _request = function(sessionId, text, callback){
 
-            req.on('response', function(response) {
+        var options = { sessionId: sessionId, resetContexts: false};
+        var req = apiClient.textRequest(text, options)
 
-                //Response speech from request
-                var chatbotSpeech = response.result.fulfillment.speech
+        req.on('response', function(response) {
 
-                //verify that the additem-no context is present
-                var names = response['result']['contexts']
+            //Response speech from request
+            var chatbotSpeech = response.result.fulfillment.speech
 
-                var isRequestComplete = null
+            //verify that the additem-no context is present
+            var names = response['result']['contexts']
+            var isRequestComplete = null
+            var itemParameters = null
 
-                console.log("response: " + JSON.stringify(response));
-                names.forEach(function(name){
+            console.log("Response request: " + util.inspect(response['result'], false, null));
+            names.forEach(function(name){
 
-                    if(!response.result.actionIncomplete && (name['name'] == 'additem-no-1' || name['name'] == 'additem-no-2' )) {
+                if(!response.result.actionIncomplete && (name['name'] == 'additem-no-1' || name['name'] == 'additem-no-2' )) {
 
-                        //Bundle object
-                        console.log("request completed");
+                    //Bundle object
+                    console.log("Request completed");
+                    isRequestComplete = true
+                    if(itemParameters != null){
 
-                       //reset context to begin a new request
-                        options['resetContexts'] = true
-                        var request = apiClient.textRequest("Hello", options)
-                        request.on('response', function(response) {
-                            console.log("reset context completed")
-                            console.log(response);
+                        //Building search query using color, notebook, and itemType
+                        var searchQuery = itemParameters['color'] + " "
+                            + itemParameters['notebook.original'] + " "
+                            + itemParameters['itemType']
+                        client.search(searchQuery).then(
+                            function(images) {
 
-                        });
+                                console.log("Images request: " + util.inspect(images[0], false, null))
+                                return (callback(true, {
+                                    name: itemParameters['itemType'],
+                                    description: searchQuery ,
+                                    picture: images[0]['url']}, chatbotSpeech))
 
-                        request.on('error', function(error) {
-                            console.log("reset context failed")
-                            console.log(error);
-                        });
+                            });
 
-                        // client.search("pink").then(function(images) {console.log(images) });
-                        isRequestComplete = true
-                        return (callback(false, {name: 'Chair', description: 'This is a chair', picture: 'url.to.picture'}, chatbotSpeech))
 
                     }
 
-                })
-                if(!isRequestComplete) {
-                    console.log("Request incomplete: " + chatbotSpeech)
-                    return (callback(false, null, chatbotSpeech))
+                }else if(name['name'] == 'additem'){
+                    itemParameters = name['parameters']
                 }
 
             })
-            req.on('error', function(error) {
-                console.log(error)
-            })
+            if(!isRequestComplete) {
+                console.log("Request incomplete: " + chatbotSpeech)
+                isRequestComplete = false
+                return (callback(false, null, chatbotSpeech))
+            }
 
-            req.end()
-        }
+        })
+        req.on('error', function(error) {
+            console.log(error)
+        })
+
+        req.end()
     }
-}
+
+    var _salutation = function(sessionId, event, callback){
+
+        var request = apiClient.eventRequest({ name: event }, {sessionId: sessionId});
+
+        request.on('response', function(response) {
+            return callback(response.result.fulfillment.speech)
+
+        });
+
+        request.on('error', function(error) {
+            console.log(error);
+        });
+
+        request.end();
+
+    }
+
+    return{
+
+        request: _request,
+        salutation: _salutation,
+    }
+}()
 
 module.exports = Apiai

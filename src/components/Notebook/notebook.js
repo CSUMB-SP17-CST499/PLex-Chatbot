@@ -9,15 +9,8 @@ export class Notebook extends Component{
     constructor(props){
         super(props);
         this.state={
-          'item':[{
-            'name' : 'Chair',
-            'price' : '$40',
-            'image' : 'https://images.hayneedle.com/mgen/options:FLSH912_15_Orange.jpg?is=555,555,0xffffff',
-            'description' : 'Orange chair'
-
-          }]
+          'item':[]
         }
-
         this.componentDidMount = this.componentDidMount.bind(this);
         this.handleRefresh = this.handleRefresh.bind(this);
     }
@@ -25,7 +18,17 @@ export class Notebook extends Component{
     handleRefresh(){
       //Axios call goes here and updates state array
       axios.get('/api/item').then((res) => {
-        console.log(res);
+
+        // Refreshes the items from the database if the database has more
+        // items than the client does.
+        for (var i = this.state.item.length; i < res['data']['items'].length; i++){
+          console.log(res['data']['items'][i]);
+          this.state.item.push({
+            'name' : res['data']['items'][i].name,
+            'image' : res['data']['items'][i].picture,
+            'description' : res['data']['items'][i].description
+          })
+        };
         this.forceUpdate();
       }).catch(function (error){
         console.log(error);

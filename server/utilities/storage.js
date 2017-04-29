@@ -7,6 +7,7 @@ var mongoose = require('mongoose')
 
 // Import our Item and Notebook schemas
 var Item = require('../models/item')
+
 var User = require('../models/user')
 var Notebook = require('../models/notebook')
 
@@ -22,10 +23,12 @@ DBStorage = function() {
     var _saveItem = function(obj, callback) {
         new Item(obj).save().then(function() {
             console.log('Item saved successfully.')
-            callback(true)
-        }, function(err) {
+            return(callback(true))
+        },
+            function(err) {
+
             console.log('Error saving item: ' + err)
-            callback(false)
+            return (callback(false))
         })
     }
 

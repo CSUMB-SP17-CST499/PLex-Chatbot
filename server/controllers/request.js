@@ -1,31 +1,65 @@
+/*
+ *  (request controller) : This endpoint sends request to apiai
+ *
+ *
+ * apiai:  Helps abstract logic in order to make requests to Api.ai.
+ *
+ */
+
 var express = require('express')
-var apiai = require('apiai')
-
-var Item = require('../models/item')
-
 var storage = require('../utilities/storage')
-var Apiai = require('../utilities/apiai')
+var apiai = require('../utilities/apiai')
 
 var router = express.Router()
 
-var apiai = Apiai()
-
-router.route('/request').post(function(request, res) {
+router.route('/text').post(function(request, res) {
     var text = request.body.intent
+    var sessionId = request.body.sessionId
 
-    apiai.request(text, function(isComplete, obj, message) {
+    apiai.request(sessionId, text, function(isComplete, obj, message) {
+
+        console.log("Check is Complete: " + isComplete)
         if(isComplete) {
+
             storage.saveItem(obj, function(didSave) {
                 if(didSave) {
-                    res.json({result: message})
+                    return (res.json({
+                        result: message,
+                        isCompleted: didSave,
+                    }))
+
                 } else {
-                    res.json({result: 'Sorry, I wasn\'t able to add your item'})
+                   return(res.json({
+                       result: 'Sorry, I wasn\'t able to add your item',
+                        isCompleted: didSave,
+                    }))
                 }
             })
-        } else {
-            res.json({result: message})
+        }else {
+            return(res.json({
+                result: message,
+                isCompleted: isComplete
+            }))
         }
     })
 })
+
+router.route('/salutation').post(function(request, res) {
+    var sessionId = request.body.sessionId
+    var event = request.body.event
+
+    if(event == "NEXT" || event =="WELCOME"){
+        apiai.salutation(sessionId, event, function(message) {
+            res.json({result: message})
+        })
+    }else{
+        var error = new Error("The server cannot fulfill request using: " + event);
+        error.http_code = 400;
+        res.json({result: error})
+    }
+
+})
+
+
 
 module.exports = router;

@@ -48,7 +48,7 @@ app.get('/', function(request, response) {
   response.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'))
 });
 
-app.use('/api', request)
+app.use('/api/request', request)
 app.use('/api', item)
 
 
