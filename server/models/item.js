@@ -9,13 +9,29 @@ var itemSchema = new Schema({
     },
     url: {
         type: String,
+        required: true
+    },
+    amount: {
+        type: String,
+        required: true
+    },
+    unit: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
         required: false
     },
     picture: {
         type: String,
         required: true
     },
-    description: {
+    material: {
+        type: String,
+        required: false
+    },
+    fabric: {
         type: String,
         required: false
     },
