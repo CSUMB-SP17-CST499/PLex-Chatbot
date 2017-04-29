@@ -7,7 +7,7 @@ var notebookSchema = new Schema({
         type: String,
         required: true
     },
-    itemIds: [Schema.Types.ObjectId]
+    itemIds: [String]
 
 })
 

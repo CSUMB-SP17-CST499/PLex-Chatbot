@@ -20,7 +20,7 @@ var Notebook = require('../models/notebook')
  */
 
 DBStorage = function() {
-    var _saveItem = function(obj, callback) {
+    var _saveItemIntoNotebook = function(obj, callback) {
         new Item(obj).save().then(function() {
             console.log('Item saved successfully.')
             return(callback(true))
@@ -32,8 +32,8 @@ DBStorage = function() {
         })
     }
 
-    var _getItemsByUser = function(uname, callback) {
-        User.find({'username': uname}, function(err, user) {
+    var _getItemsForNotebook = function(notebookName, callback) {
+        Notebook.find({'name': notebookName}, function(err, user) {
             if(err) {
                 console.log('user not found')
                 return callback(err, null)
@@ -56,7 +56,7 @@ DBStorage = function() {
 
     return {
         saveItem: _saveItem,
-        getItemsByUser:  _getItemsByUser
+        getItemsByUser: _getItemsByUser
     }
 }()
 

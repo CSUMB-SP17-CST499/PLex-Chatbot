@@ -7,7 +7,9 @@ var userSchema = new Schema({
         type: String,
         required: true
     },
-    itemIds: [String]
+    notebooks: [
+        {name: String, notebookId: String}
+    ]
 })
 
 // Exporting Item schema

@@ -55,13 +55,13 @@ Apiai = function (){
 
                         //Building search query using color, notebook, and itemType
                         var searchQuery = itemParameters['color'] + " "
-                            + itemParameters['notebook.original'] + " "
+                            + itemParameters['notebook'] + " "
                             + itemParameters['itemType']
                         client.search(searchQuery).then(
                             function(images) {
 
                                 console.log("Images request: " + util.inspect(images[0], false, null))
-                                return (callback(true, {
+                                return (callback(true, itemParameters['notebook']{
                                     name: itemParameters['itemType'],
                                     price: itemParameters['price'],
                                     description: searchQuery ,
