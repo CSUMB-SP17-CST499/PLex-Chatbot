@@ -43,14 +43,14 @@ Apiai = function (){
             var isRequestComplete = null
             var itemParameters = null
 
-            console.log("Response request: " + util.inspect(response, false, null));
+            console.log("Response request: " + util.inspect(response['result'], false, null));
             names.forEach(function(name){
 
                 if(!response.result.actionIncomplete && (name['name'] == 'additem-no-1' || name['name'] == 'additem-no-2' )) {
 
                     //Bundle object
-                    console.log("request completed");
-
+                    console.log("Request completed");
+                    isRequestComplete = true
                     if(itemParameters != null){
 
                         //Building search query using color, notebook, and itemType
@@ -60,15 +60,13 @@ Apiai = function (){
                         client.search(searchQuery).then(
                             function(images) {
 
-                                console.log("Images request: " + util.inspect(images, false, null))
-                                isRequestComplete = true
+                                console.log("Images request: " + util.inspect(images[0], false, null))
                                 return (callback(true, {
                                     name: itemParameters['itemType'],
                                     description: searchQuery ,
                                     picture: images[0]['url']}, chatbotSpeech))
 
                             });
-
 
 
                     }
@@ -80,6 +78,7 @@ Apiai = function (){
             })
             if(!isRequestComplete) {
                 console.log("Request incomplete: " + chatbotSpeech)
+                isRequestComplete = false
                 return (callback(false, null, chatbotSpeech))
             }
 
@@ -96,7 +95,6 @@ Apiai = function (){
         var request = apiClient.eventRequest({ name: event }, {sessionId: sessionId});
 
         request.on('response', function(response) {
-            console.log("Response init: " + util.inspect(response, false, null));
             return callback(response.result.fulfillment.speech)
 
         });
