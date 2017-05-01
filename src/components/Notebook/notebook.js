@@ -23,10 +23,22 @@ export class Notebook extends Component{
         // items than the client does.
         for (var i = this.state.item.length; i < res['data']['items'].length; i++){
           console.log(res['data']['items'][i]);
+          var mat = '';
+          if (res['data']['items'][i].material.length != 0){
+            mat = "Material : " + res['data']['items'][i].material
+          }
+          var fab = '';
+          if (res['data']['items'][i].fabric.length != 0){
+            fab = "Fabric : " + res['data']['items'][i].fabric
+          }
+
           this.state.item.push({
             'name' : res['data']['items'][i].name,
+            'price' : res['data']['items'][i]['price'].amount + " " + res['data']['items'][i]['price'].currency,
             'image' : res['data']['items'][i].picture,
-            'description' : res['data']['items'][i].description
+            'description' : res['data']['items'][i].description,
+            'material' : mat,
+            'fabric' : fab
           })
         };
         this.forceUpdate();
@@ -45,6 +57,12 @@ export class Notebook extends Component{
               <img className='itemPic' src={n.image} />
               <span className='itemName'>
                 {n.price} : {n.name}
+              </span>
+              <span>
+                {n.fabric}
+              </span>
+              <span>
+                {n.material}
               </span>
               <div className='itemDescription'>
                 {n.description}
