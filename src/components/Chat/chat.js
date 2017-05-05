@@ -9,6 +9,7 @@ export class Chat extends Component {
         this.state = {
             'text' : '',
             'sessionId': '', //TODO: generate unique sessionIds
+            'userName': '12345',
             'conversation': [{
               'class' : '',
               'message' : ''
@@ -37,13 +38,13 @@ export class Chat extends Component {
     axios.post('/api/request/text', {
         intent: this.state.text,
         sessionId: this.state.sessionId,
+        userName: this.state.userName,
+
     }).then((res) => {
         console.log(res['data']['result']);
         this.state.conversation.push({'class' : 'bot', 'message' : res['data']['result']})
         this.forceUpdate();
         this.updateScroll();
-
-        console.log("Iscompleted result axios:" + JSON.stringify(res['data'], null, 2));
 
         if(res['data']['isCompleted']){
             setTimeout(this.nextConversation(), 10000)
@@ -56,7 +57,6 @@ export class Chat extends Component {
 
   userCall(){
 
-      console.log("Conversation: " + this.state.text)
       this.state.conversation.push({'class' : 'user', 'message' : this.state.text})
       this.setState({'text': ''});
       this.forceUpdate();

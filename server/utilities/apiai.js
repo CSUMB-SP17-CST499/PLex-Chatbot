@@ -43,7 +43,7 @@ Apiai = function (){
             var isRequestComplete = null
             var itemParameters = null
 
-            console.log("Response request: " + util.inspect(response['result'], false, null));
+            console.log("Response request: " + util.inspect(response['result']['contexts'], false, null));
             names.forEach(function(name){
 
                 if(!response.result.actionIncomplete && (name['name'] == 'additem-no-1' || name['name'] == 'additem-no-2' )) {
@@ -55,12 +55,13 @@ Apiai = function (){
 
                         //Building search query using color, notebook, and itemType
                         var searchQuery = itemParameters['color'] + " "
-                            + itemParameters['notebook.original'] + " "
+                            + itemParameters['notebook'] + " "
                             + itemParameters['itemType']
                         client.search(searchQuery).then(
                             function(images) {
 
                                 console.log("Images request: " + util.inspect(images[0], false, null))
+
                                 return (callback(true, {
                                     name: itemParameters['itemType'],
                                     price: itemParameters['price'],
@@ -69,12 +70,9 @@ Apiai = function (){
                                     time: itemParameters['leadTime'],
                                     material: itemParameters['material'],
                                     fabric: itemParameters['fabric']
-                                }, chatbotSpeech))
-
-
+                                }, chatbotSpeech, itemParameters['notebook']))
 
                             });
-
 
                     }
 
@@ -86,7 +84,7 @@ Apiai = function (){
             if(!isRequestComplete) {
                 console.log("Request incomplete: " + chatbotSpeech)
                 isRequestComplete = false
-                return (callback(false, null, chatbotSpeech))
+                return (callback(false, null, chatbotSpeech, null))
             }
 
         })

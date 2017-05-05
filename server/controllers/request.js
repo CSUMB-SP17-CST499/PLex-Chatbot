@@ -9,19 +9,22 @@
 var express = require('express')
 var storage = require('../utilities/storage')
 var apiai = require('../utilities/apiai')
+var util = require('util');
+
 
 var router = express.Router()
 
 router.route('/text').post(function(request, res) {
     var text = request.body.intent
     var sessionId = request.body.sessionId
+    var userName = request.body.userName
 
-    apiai.request(sessionId, text, function(isComplete, obj, message) {
+    apiai.request(sessionId, text, function(isComplete, obj, message, notebookName) {
 
-        console.log("Check is Complete: " + isComplete)
         if(isComplete) {
 
-            storage.saveItem(obj, function(didSave) {
+            storage.saveItem(obj, notebookName, userName, function(didSave) {
+
                 if(didSave) {
                     return (res.json({
                         result: message,
